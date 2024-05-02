@@ -13,6 +13,7 @@ class HelloController extends AbstractController
     private array $messages = [
         "Hello", "Hi", "Bye"
     ];
+
     #[Route('/{limit<\d+>?3}', name: 'app_index')]
     public function index(int $limit): Response
     {
@@ -22,7 +23,7 @@ class HelloController extends AbstractController
     }
 
     #[Route('/messages/{id<\d+>}', name: 'app_show_one')]
-    public   function showOne(int $id): Response
+    public function showOne(int $id): Response
     {
         return new Response($this->messages[$id]);
     }
