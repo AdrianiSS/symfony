@@ -1,6 +1,11 @@
-<div>The curren message is: </div>
-<div>
-    <b>
-        {{ messages }}
-    </b>
-</div>
+{% extends  'base.html.twig' %}
+{% block title %}Message{% endblock %}
+    {% block body %}
+        <h1>Hi, this is a header</h1>
+        <div>The current message is: </div>
+        <div>
+            <b>
+                {{ messages }}
+            </b>
+        </div>
+    {% endblock %}
