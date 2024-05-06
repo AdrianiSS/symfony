@@ -4,8 +4,7 @@
         <h1>Hi, this is a header</h1>
         <div>The current message is: </div>
         <div>
-            <b>
-                {{ messages }}
-            </b>
+            <div> {{ message.message }}</div>
+            {{ include('hello/_message.html.twig', {message: message}) }}
         </div>
     {% endblock %}

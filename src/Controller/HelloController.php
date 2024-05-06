@@ -11,7 +11,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class HelloController extends AbstractController
 {
     private array $messages = [
-        "Hello", "Hi", "Bye"
+        ['message' => 'Hello', 'created' => '2023/06/12'],
+        ['message' => 'Hi', 'created' => '2023/04/12'],
+        ['message' => 'Bye', 'created' => '2021/05/12'],
     ];
 
     #[Route('/{limit?3}', name: 'app_index')]
@@ -32,7 +34,7 @@ class HelloController extends AbstractController
         return $this->render(
             'hello/show_one.html.twig',
             [
-                'messages' => $this->messages[$id]
+                'message' => $this->messages[$id]
             ]
         );
 //        return new Response($this->messages[$id]);
