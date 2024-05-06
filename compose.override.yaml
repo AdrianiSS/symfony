@@ -2,9 +2,21 @@ version: '3'
 
 services:
 ###> doctrine/doctrine-bundle ###
-  database:
+  mysql:
+    image: mariadb:10.8.3
+    # Uncomment below when on Mac M1
+    platform: linux/arm64/v8
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
     ports:
-      - "5432"
+      - 3307:3307
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 ###< doctrine/doctrine-bundle ###
 
 ###> symfony/mailer ###
