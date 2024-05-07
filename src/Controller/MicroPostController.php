@@ -29,7 +29,7 @@ class MicroPostController extends AbstractController
     #[Route('/micro-post/create', name: 'app_micro_post_create', priority: 2)]
     public function add(Request $request, MicroPostRepository $posts): Response
     {
-        $form = $this->createForm(MicroPostType::class, new MicroPost());
+        $form = $this->createForm(MicroPostType ::class, new MicroPost());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -62,7 +62,7 @@ class MicroPostController extends AbstractController
             return $this->redirectToRoute('app_micro_post');
         }
 
-        return $this->render('micro_post/create.html.twig', [
+        return $this->render('micro_post/edit.html.twig', [
             'form' => $form,
         ]);
     }
