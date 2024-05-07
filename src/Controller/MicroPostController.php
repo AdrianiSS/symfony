@@ -3,11 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\MicroPost;
+use App\Form\MicroPostType;
 use App\Repository\MicroPostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -31,13 +29,7 @@ class MicroPostController extends AbstractController
     #[Route('/micro-post/create', name: 'app_micro_post_create', priority: 2)]
     public function add(Request $request, MicroPostRepository $posts): Response
     {
-        $microPost = new MicroPost();
-        $formBuilder = $this->createFormBuilder($microPost);
-        $form = $formBuilder
-            ->add('title', TextType::class)
-            ->add('text', TextareaType::class)
-            ->getForm();
-
+        $form = $this->createForm(MicroPostType::class, new MicroPost());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -58,11 +50,7 @@ class MicroPostController extends AbstractController
     #[Route('/micro-post/{post}/edit', name: 'app_micro_post_edit')]
     public function edit(MicroPost $post, Request $request, MicroPostRepository $posts): Response
     {
-        $form = $this->createFormBuilder($post)
-            ->add('title', TextType::class)
-            ->add('text', TextareaType::class)
-            ->getForm();
-
+        $form = $this->createForm(MicroPostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
