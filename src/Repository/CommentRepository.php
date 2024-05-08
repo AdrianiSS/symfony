@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\UserProfile;
+use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<UserProfile>
+ * @extends ServiceEntityRepository<Comment>
  */
-class UserProfileRepository extends ServiceEntityRepository
+class CommentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UserProfile::class);
+        parent::__construct($registry, Comment::class);
     }
 
-    public function add(UserProfile $entity, bool $flush = false): void
+    public function add(Comment $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -25,7 +25,7 @@ class UserProfileRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(UserProfile $entity, bool $flush = false): void
+    public function remove(Comment $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
         if ($flush) {
@@ -34,24 +34,24 @@ class UserProfileRepository extends ServiceEntityRepository
     }
 
     //    /**
-    //     * @return UserProfile[] Returns an array of UserProfile objects
+    //     * @return Comment[] Returns an array of Comment objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
+    //            ->orderBy('c.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?UserProfile
+    //    public function findOneBySomeField($value): ?Comment
     //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()
