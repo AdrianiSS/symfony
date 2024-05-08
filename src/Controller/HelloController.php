@@ -31,9 +31,9 @@ class HelloController extends AbstractController
 //        $post->setText('Hello');
 //        $post->setCreated(created: new \DateTime());
 
-        $post = $posts->find(9);
-        $comment = $post->getComments()[0];
-        $comment->setPost(null);
+//        $post = $posts->find(9);
+//        $comment = $post->getComments()[0];
+//        $comment->setPost(null);
 
 
 //        $user = new User();
