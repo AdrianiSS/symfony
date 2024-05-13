@@ -33,7 +33,7 @@ class MicroPostController extends AbstractController
     }
     #[Route('/micro-post/create', name: 'app_micro_post_create', priority: 2)]
     #[IsGranted('ROLE_VERIFIED')]
-    public function add(Request $request, MicroPostRepository $posts): Response
+    public function profile(Request $request, MicroPostRepository $posts): Response
     {
         $form = $this->createForm(MicroPostType::class, new MicroPost());
         $form->handleRequest($request);
