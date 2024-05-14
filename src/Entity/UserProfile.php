@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserProfileRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,9 +37,20 @@ class UserProfile
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateOfBirth = null;
 
-    #[ORM\OneToOne(inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?User $user;
+
+    /**
+     * @var Collection<int, MicroPost>
+     */
+    #[ORM\OneToMany(targetEntity: MicroPost::class, mappedBy: 'userProfile')]
+    private Collection $microPosts;
+
+    public function __construct()
+    {
+        $this->microPosts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -136,6 +149,36 @@ class UserProfile
     public function setUser(User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MicroPost>
+     */
+    public function getMicroPosts(): Collection
+    {
+        return $this->microPosts;
+    }
+
+    public function addMicroPost(MicroPost $microPost): static
+    {
+        if (!$this->microPosts->contains($microPost)) {
+            $this->microPosts->add($microPost);
+            $microPost->setUserProfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMicroPost(MicroPost $microPost): static
+    {
+        if ($this->microPosts->removeElement($microPost)) {
+            // set the owning side to null (unless already changed)
+            if ($microPost->getUserProfile() === $this) {
+                $microPost->setUserProfile(null);
+            }
+        }
 
         return $this;
     }

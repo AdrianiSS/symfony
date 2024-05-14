@@ -4,14 +4,17 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\MicroPostRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 
 class ProfileController extends AbstractController
 {
     #[Route('/profile/{id}', name: 'app_profile')]
-    public function show(User $user, MicroPostRepository $posts): Response {
+    public function show(
+        User $user,
+        MicroPostRepository $posts
+    ): Response {
         return $this->render('profile/show.html.twig', [
             'user' => $user,
             'posts' => $posts->findAllByAuthor(
@@ -24,7 +27,7 @@ class ProfileController extends AbstractController
     public function follows(User $user): Response
     {
         return $this->render('profile/follows.html.twig', [
-            'user' => $user,
+            'user' => $user
         ]);
     }
 
@@ -32,7 +35,7 @@ class ProfileController extends AbstractController
     public function followers(User $user): Response
     {
         return $this->render('profile/followers.html.twig', [
-            'user' => $user,
+            'user' => $user
         ]);
     }
 }
