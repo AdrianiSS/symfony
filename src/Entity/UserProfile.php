@@ -47,6 +47,9 @@ class UserProfile
     #[ORM\OneToMany(targetEntity: MicroPost::class, mappedBy: 'userProfile')]
     private Collection $microPosts;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     public function __construct()
     {
         $this->microPosts = new ArrayCollection();
@@ -179,6 +182,18 @@ class UserProfile
                 $microPost->setUserProfile(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }
