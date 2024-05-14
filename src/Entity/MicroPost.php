@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MicroPostRepository;
 use Doctrine\Common\Collections\Collection;
@@ -18,15 +19,15 @@ class MicroPost
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     #[Assert\Length(min: 5, max: 255, minMessage: 'Title is to short, 5 characters is the minimum.')]
     private ?string $title;
 
     #[ORM\Column(type: 'string', length: 500)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     #[Assert\Length(min: 5, max: 500)]
     private ?string $text;
 
@@ -86,12 +87,12 @@ class MicroPost
         return $this;
     }
 
-    public function getCreated(): ?\DateTimeInterface
+    public function getCreated(): ?DateTimeInterface
     {
         return $this->created;
     }
 
-    public function setCreated(\DateTimeInterface $created): self
+    public function setCreated(DateTimeInterface $created): self
     {
         $this->created = $created;
 
@@ -118,11 +119,9 @@ class MicroPost
 
     public function removeComment(Comment $comment): self
     {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getPost() === $this) {
-                $comment->setPost(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->comments->removeElement($comment) && $comment->getPost() === $this) {
+            $comment->setPost(null);
         }
 
         return $this;

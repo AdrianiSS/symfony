@@ -9,6 +9,7 @@ use App\Form\CommentType;
 use App\Form\MicroPostType;
 use App\Repository\CommentRepository;
 use App\Repository\MicroPostRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -86,7 +87,7 @@ class MicroPostController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $post = $form->getData();
-            $post->setUpdated(new \DateTime());
+            $post->setUpdated(new DateTime());
             $posts->add($post, true);
 
             $this->addFlash('success', 'Post updated!');

@@ -4,13 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Comment;
-use App\Entity\MicroPost;
-use App\Entity\User;
-use App\Entity\UserProfile;
 use App\Repository\CommentRepository;
 use App\Repository\MicroPostRepository;
-use App\Repository\UserProfileRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -26,28 +21,6 @@ class HelloController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function index(MicroPostRepository $posts, CommentRepository $comments): Response
     {
-//        $post = new MicroPost();
-//        $post->setTitle('Hello');
-//        $post->setText('Hello');
-//        $post->setCreated(created: new \DateTime());
-
-//        $post = $posts->find(9);
-//        $comment = $post->getComments()[0];
-//        $comment->setPost(null);
-
-
-//        $user = new User();
-//        $user->setEmail('user@example.com');
-//        $user->setPassword('123456');
-//;
-//        $profile = new UserProfile();
-//        $profile->setUser($user);
-//        $profiles->add($profile, true);
-
-//        $profile = $profiles->find(1);
-//        $profiles->remove($profile, true);
-
-
         return $this->render(
             'hello/index.html.twig',
             [

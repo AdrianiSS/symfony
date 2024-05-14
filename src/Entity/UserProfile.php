@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserProfileRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -35,7 +36,7 @@ class UserProfile
     private ?string $location = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateOfBirth = null;
+    private ?DateTimeInterface $dateOfBirth = null;
 
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -132,12 +133,12 @@ class UserProfile
         return $this;
     }
 
-    public function getDateOfBirth(): ?\DateTimeInterface
+    public function getDateOfBirth(): ?DateTimeInterface
     {
         return $this->dateOfBirth;
     }
 
-    public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): static
+    public function setDateOfBirth(?DateTimeInterface $dateOfBirth): static
     {
         $this->dateOfBirth = $dateOfBirth;
 
@@ -176,11 +177,9 @@ class UserProfile
 
     public function removeMicroPost(MicroPost $microPost): static
     {
-        if ($this->microPosts->removeElement($microPost)) {
-            // set the owning side to null (unless already changed)
-            if ($microPost->getUserProfile() === $this) {
-                $microPost->setUserProfile(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->microPosts->removeElement($microPost) && $microPost->getUserProfile() === $this) {
+            $microPost->setUserProfile(null);
         }
 
         return $this;

@@ -6,7 +6,7 @@ use App\Entity\MicroPost;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -63,7 +63,7 @@ class MicroPostRepository extends ServiceEntityRepository
             ->groupBy('p.id')
             ->where('COUNT(l) >= :minLikes')
             ->setParameter('minLikes', $minLikes)
-            ->getQuery()->getResult(Query::HYDRATE_SCALAR_COLUMN);
+            ->getQuery()->getResult(AbstractQuery::HYDRATE_SCALAR_COLUMN);
 
         return $this->findAllQuery(withComments: true, withLikes: true, withAuthors: true, withProfiles: true)
             ->where('p.id IN (:idList)')
@@ -72,7 +72,7 @@ class MicroPostRepository extends ServiceEntityRepository
 
     }
 
-    private function findAllQuery(bool $withComments = false, bool $withLikes = false, bool $withAuthors = false, bool $withProfiles = false,): QueryBuilder{
+    private function findAllQuery(bool $withComments = false, bool $withLikes = false, bool $withAuthors = false, bool $withProfiles = false): QueryBuilder{
         $query = $this->createQueryBuilder('p');
         if ($withComments) {
             $query->leftJoin('p.comments', 'c')

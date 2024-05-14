@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -61,7 +62,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $bannedUntil = null;
+    private ?DateTimeInterface $bannedUntil = null;
 
     /**
      * @var Collection<int, self>
@@ -228,11 +229,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removePost(MicroPost $post): static
     {
-        if ($this->posts->removeElement($post)) {
-            // set the owning side to null (unless already changed)
-            if ($post->getAuthor() === $this) {
-                $post->setAuthor(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->posts->removeElement($post) && $post->getAuthor() === $this) {
+            $post->setAuthor(null);
         }
 
         return $this;
@@ -258,11 +257,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeComment(Comment $comment): static
     {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getAuthor() === $this) {
-                $comment->setAuthor(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->comments->removeElement($comment) && $comment->getAuthor() === $this) {
+            $comment->setAuthor(null);
         }
 
         return $this;
@@ -280,12 +277,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getBannedUntil(): ?\DateTimeInterface
+    public function getBannedUntil(): ?DateTimeInterface
     {
         return $this->bannedUntil;
     }
 
-    public function setBannedUntil(?\DateTimeInterface $bannedUntil): static
+    public function setBannedUntil(?DateTimeInterface $bannedUntil): static
     {
         $this->bannedUntil = $bannedUntil;
 
