@@ -16,6 +16,7 @@ class MicroPostType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('text', TextareaType::class)
+            ->add('extraPrivacy')
         ;
     }
 
